@@ -84,14 +84,6 @@ func decodeHTTPAddRequest(_ context.Context, r *http.Request) (interface{}, erro
 	}
 	return req, nil
 }
-// func decodeHTTPAddRequest(_ context.Context, r *http.Request) (interface{}, error) {
-// 	var req database.AddRequest
-// 	err := json.NewDecoder(r.Body).Decode(&req)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return req, nil
-// }
 
 func encodeHTTPResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
 	return json.NewEncoder(w).Encode(response)

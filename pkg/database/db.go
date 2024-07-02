@@ -28,9 +28,12 @@ func (d *dbService) Add(_ context.Context, doc *internal.Document) (string, erro
 func (d *dbService) Get(_ context.Context, filters ...internal.Filter) ([]internal.Document, error) {
 	var documents []internal.Document
 	query := d.db
-
+    
 	for _, filter := range filters {
 		if filter.Value != "" {
+			fmt.Printf("filtering by Key and Value")
+			fmt.Print(filter.Key)
+			fmt.Print(filter.Value)
 			query = query.Where(filter.Key+" = ?", filter.Value)
 		} else {
 			query = query.Order(filter.Key)

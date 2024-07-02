@@ -28,7 +28,5 @@ func Init(host, port, user, dbname, password string) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.AutoMigrate(&internal.Document{}) // Make sure to migrate the Document schema
-
 	return db, nil
 }

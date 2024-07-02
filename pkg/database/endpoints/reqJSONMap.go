@@ -39,14 +39,6 @@ type RemoveResponse struct {
 	Err  string `json:"err"`
 }
 
-//type ValidateRequest struct {
-//	Document *internal.Document `json:"document"`
-//}
-//
-//type ValidateResponse struct {
-//	Valid bool   `json:"valid"`
-//	Err   string `json:"err,omitempty"`
-//}
 
 type ServiceStatusRequest struct{}
 
