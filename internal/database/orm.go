@@ -17,9 +17,18 @@ type Document struct {
 	Watermark string `gorm:"type:varchar(100)"`
 }
 
-func Init(dialect, host, port, dbname, pass string) (*gorm.DB, error) {
-	db, err := gorm.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s", dialect,
-		host, port, dbname, pass))
-	return db, err
-	//defer db.Close()
+func Init(host, port, user, dbname, password string) (*gorm.DB, error) {
+	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", host, port, user, dbname, password)
+	db, err := gorm.Open("postgres", dsn)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := db.DB().Ping(); err != nil {
+		return nil, err
+	}
+
+	// db.AutoMigrate(&internal.Document{}) // Make sure to migrate the Document schema
+
+	return db, nil
 }

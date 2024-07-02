@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"os"
-
+    "fmt"
 	"github.com/aayushrangwala/watermark-service/internal"
 	"github.com/aayushrangwala/watermark-service/pkg/database"
 
@@ -56,6 +56,9 @@ func MakeUpdateEndpoint(svc database.Service) endpoint.Endpoint {
 func MakeAddEndpoint(svc database.Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(AddRequest)
+		fmt.Printf("AddingREquest")
+		fmt.Print(req)
+		fmt.Print(req.Document)
 		ticketID, err := svc.Add(ctx, req.Document)
 		if err != nil {
 			return AddResponse{TicketID: ticketID, Err: err.Error()}, nil
@@ -111,6 +114,7 @@ func (s *Set) ServiceStatus(ctx context.Context) (int, error) {
 }
 
 func (s *Set) Add(ctx context.Context, doc *internal.Document) (string, error) {
+	
 	resp, err := s.AddEndpoint(ctx, AddRequest{Document: doc})
 	if err != nil {
 		return "", err

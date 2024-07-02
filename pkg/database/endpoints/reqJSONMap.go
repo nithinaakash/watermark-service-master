@@ -27,7 +27,7 @@ type AddRequest struct {
 
 type AddResponse struct {
 	TicketID string `json:"ticketID"`
-	Err      string `json:"err"`
+	Err      string `json:"err,omitempty"`
 }
 
 type RemoveRequest struct {

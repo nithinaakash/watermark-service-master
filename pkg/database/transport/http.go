@@ -15,7 +15,7 @@ import (
 
 func NewHTTPHandler(ep endpoints.Set) http.Handler {
 	m := http.NewServeMux()
-
+	
 	m.Handle("/healthz", httptransport.NewServer(
 		ep.ServiceStatusEndpoint,
 		decodeHTTPServiceStatusRequest,
@@ -29,7 +29,7 @@ func NewHTTPHandler(ep endpoints.Set) http.Handler {
 	m.Handle("/add", httptransport.NewServer(
 		ep.AddEndpoint,
 		decodeHTTPAddRequest,
-		encodeResponse,
+		encodeHTTPResponse,
 	))
 	m.Handle("/get", httptransport.NewServer(
 		ep.GetEndpoint,
@@ -84,7 +84,18 @@ func decodeHTTPAddRequest(_ context.Context, r *http.Request) (interface{}, erro
 	}
 	return req, nil
 }
+// func decodeHTTPAddRequest(_ context.Context, r *http.Request) (interface{}, error) {
+// 	var req database.AddRequest
+// 	err := json.NewDecoder(r.Body).Decode(&req)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return req, nil
+// }
 
+func encodeHTTPResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
+	return json.NewEncoder(w).Encode(response)
+}
 func decodeHTTPServiceStatusRequest(_ context.Context, _ *http.Request) (interface{}, error) {
 	var req endpoints.ServiceStatusRequest
 	return req, nil
