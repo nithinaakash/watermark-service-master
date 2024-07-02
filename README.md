@@ -1,42 +1,53 @@
-# Serverless/Cloud-Native watermark-service
+# Watermark-Service
 
-A global publishing company that publishes books and journals wants to develop a service to
-watermark their documents. Book publications include topics in business, science and media. Journals don’t include any specific topics. A document (books, journals) has a title, author and a watermark property. An empty watermark property indicates that the document has not been watermarked yet.
+## Problem Statement
+A global publishing company specializing in books and journals seeks to develop a service to watermark their documents. The company publishes books on various topics such as business, science, and media, while journals do not include specific topics. Each document (whether a book or journal) has a title, author, and a watermark property. An empty watermark property indicates that the document has not been watermarked yet.
 
-The watermark service has to be asynchronous. For a given content document the service should return a ticket, which can be used to poll the status of processing (e.g.: Status: Started, Pending, Finished). If the watermarking is finished the document can be retrieved with the ticket. The watermark of a book or a journal is identified by setting the watermark property of the object. For a book the watermark includes the properties content, title, author and topic. The journal watermark includes the content, title and author.
+## Service Requirements
 
-##### Examples for watermarks:
-{content:”book”, title:”The Dark Code”, author:”Bruce Wayne”, topic:”Science”}
+The watermark service needs to be asynchronous. For any given document, the service should return a ticket that can be used to poll the status of processing (e.g., Status: Started, Pending, Finished). Once watermarking is complete, the document can be retrieved using the ticket. The watermark of a book or journal is identified by setting the watermark property of the object. For a book, the watermark includes the properties content, title, author, and topic. The journal watermark includes the content, title, and author.
 
-{content:”book”, title:”How to make money”, author:”Dr. Evil”, topic:”Business”}
+### Examples of Watermarks
 
-{content:”journal”, title:”Journal of human flight routes”, author:”Clark Kent”}
+#### Book:
 
-#### Tasks
-Implement the Watermark-Service using RESTful APIs in microservice-oriented model, meeting the above conditions.
+{
+  "content": "book",
+  "title": "The Dark Code",
+  "author": "Bruce Wayne",
+  "topic": "Science"
+}
 
-1. A microservice for watermarking and returning the ticket-id API and user authorization API. Users allowed: SuperAdmin, Default
-2. A microservice for retrieving a book by its ticket-id when finished.
-3. An API for retrieving the statuses by its ticket-id
+## Tasks
 
-#### Note
-Provide sufficient Unit-Tests to ensure the functionality of the service by giving enough logging output monitoring various (10 books, 10 Journals)
-asynchronous watermark processes identified by a unique ticket-id.
+### Watermark Service:
 
-Use Golang/gRPC stack, MongoDB
+Implement a microservice for watermarking documents and returning a ticket ID.
+Implement user authorization API (Users: SuperAdmin, Default).
 
-A test script wrapper in the root directory running the tests, like runWatermarkTests.sh
+### Document Retrieval Service:
 
-Setup a local development environment of your choice based on Kubernetes (Minikube, Docker for Desktop, OKD, K3s, microk8s, etc..)
+Implement a microservice for retrieving a document by its ticket ID once the watermarking is finished.
 
-### Nice To Haves:
+### Status Retrieval API:
 
-Create test scenarios for following typical microservice patterns:
-- Ambassador API Gateway (Facade Pattern)
-- Circuit Breaker
-- Mirroring
-- Canary Deployments
-- Alerting with Grafana
+Implement an API for retrieving the status of a document by its ticket ID.
 
-###### References and samples:
- https://trello.com/b/tuDO5DYR/watermark-service-application
+### Implementation Details
+Use Golang/gRPC stack and Postgress DB.
+Provide sufficient unit tests to ensure the functionality of the service.
+Include logging output to monitor various asynchronous watermark processes identified by a unique ticket ID.
+Testing
+Create a test script wrapper in the root directory to run tests.
+Ensure the tests cover at least 10 books and 10 journals.
+Development Environment
+Set up a local development environment using Kubernetes ( Docker for Desktop, OKD, K3s, microk8s).
+
+## Nice to Have
+Create test scenarios for the following typical microservice patterns:
+
+Ambassador API Gateway (Facade Pattern) <br>
+Circuit Breaker <br>
+Mirroring <br>
+Canary Deployments <br>
+Alerting with Grafana <br>
